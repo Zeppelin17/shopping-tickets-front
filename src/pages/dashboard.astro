@@ -1,0 +1,21 @@
+---
+import { isLoggedIn } from "../utils"
+import MainLayout from "../layouts/MainLayout.astro"
+
+if (Astro.cookies.has("token") && Astro.cookies.has("tokenExpiry")) {
+    // get token and tokenExpiry from cookie
+    const token = (Astro.cookies.get("token") || {})?.value
+    const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+    
+    if (!isLoggedIn({ token, tokenExpiry })) {
+        return Astro.redirect("/login")
+    }
+
+}else{
+    return Astro.redirect("/login")
+}
+---
+
+<MainLayout title="Dashboard">
+    <h1>Dashboard</h1>
+</MainLayout>

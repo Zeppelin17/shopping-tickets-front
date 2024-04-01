@@ -1,9 +1,12 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro"
 import LoginForm from "../components/LoginForm.astro"
+
+const errorLogin = (Astro.cookies.get("errorLogin") || {})?.value
+Astro.cookies.set("errorLogin", "", {path: "/login", expires: new Date()})
 ---
 
 <MainLayout title="Login">
     <h1>Login</h1>
-    <LoginForm />
+    <LoginForm errorMsg={errorLogin} />
 </MainLayout>
