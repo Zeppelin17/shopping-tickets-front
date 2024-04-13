@@ -1,6 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro"
 import LoginForm from "../components/LoginForm.astro"
+import { isLoggedIn } from "../utils"
+
+// check if already logged in
+const token = (Astro.cookies.get("token") || {})?.value
+const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+
+if (isLoggedIn({ token, tokenExpiry })) {
+    return Astro.redirect("/dashboard")
+}
 
 const errorLogin = (Astro.cookies.get("errorLogin") || {})?.value
 Astro.cookies.set("errorLogin", "", {path: "/login", expires: new Date()})

@@ -1,0 +1,20 @@
+---
+import { isLoggedIn } from "../../utils"
+import MainLayout from "../../layouts/MainLayout.astro"
+import CurrentTickets from "../../components/CurrentTickets.astro"
+
+// check if already logged in
+const token = (Astro.cookies.get("token") || {})?.value
+const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+
+if (!isLoggedIn({ token, tokenExpiry })) {
+    return Astro.redirect("/login")
+}
+---
+
+<MainLayout title="Dashboard">
+    <h1>Dashboard</h1>
+    <p><a href="/dashboard/newticket">Nuevo Ticket</a></p>
+    <h2>Tickets del mes</h2>
+    <CurrentTickets token={token} />
+</MainLayout>

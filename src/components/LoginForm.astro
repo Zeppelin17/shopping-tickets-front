@@ -1,14 +1,4 @@
 ---
-import { isLoggedIn } from "../utils"
-
-// if already logged in, redirect to dashboard
-const token = (Astro.cookies.get("token") || {})?.value
-const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
-
-if (isLoggedIn({ token, tokenExpiry })) {
-    return Astro.redirect("/dashboard")
-}
-
 const { errorMsg } = Astro.props
 ---
 <form action="/actions/login" method="post">

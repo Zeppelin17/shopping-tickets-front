@@ -1,0 +1,30 @@
+---
+const { token, errorMsg, successMsg, item } = Astro.props
+
+const getShops = async () => {
+    const shopsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops"
+    const query = await fetch(shopsEndpoint, {
+        method: "GET",
+        headers: {
+            "Authorization": `Token ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    const response = await query.json()
+    return response
+}
+
+const shops = await getShops()
+---
+<form action="/actions/ticket" method="post">
+    <input type="date" name="date" placeholder="Fecha" required>
+    <input type="number" step="0.01" name="amount" placeholder="Total" required>
+    <select name="shop" required>
+        <option value="">Tienda</option>
+        {shops.map((shop) => <option value={shop.id}>{shop.name}</option>)}
+    </select>
+    <button>{item ? "Editar" : "Crear"}</button>
+
+    {errorMsg && <p>{errorMsg}</p>}
+    {successMsg && <p>{successMsg}</p>}
+</form>
