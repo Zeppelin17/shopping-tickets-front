@@ -16,12 +16,13 @@ const getShops = async () => {
 
 const shops = await getShops()
 ---
-<form action="/actions/ticket" method="post">
-    <input type="date" name="date" placeholder="Fecha" required>
-    <input type="number" step="0.01" name="amount" placeholder="Total" required>
+<form action="/actions/ticket" method="POST">
+    <input type="hidden" name="id" value={item && item.id}>
+    <input type="date" name="date" placeholder="Fecha" value={item && item.date} required>
+    <input type="number" step="0.01" name="amount" placeholder="Total" value={item && item.amount} required>
     <select name="shop" required>
         <option value="">Tienda</option>
-        {shops.map((shop) => <option value={shop.id}>{shop.name}</option>)}
+        {shops.map((shop) => <option value={shop.id} selected={(item && item.shop.id === shop.id) ? "selected" : ""}>{shop.name}</option>)}
     </select>
     <button>{item ? "Editar" : "Crear"}</button>
 

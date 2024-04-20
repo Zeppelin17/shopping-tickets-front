@@ -2,9 +2,7 @@
 const { id, date, amount, shop } = Astro.props
 ---
 <div>
-    <p>{id}</p>
-    <p>{date}</p>
-    <p>{amount}</p>
-    <p>({shop.id}) {shop.name}</p>
-    <p><a href="#">Editar</a></p>
+    <p>
+        {id} | {date} | {amount} | ({shop.id}) {shop.name} | <a href=`/dashboard/editticket/${id}/`>Editar</a> | <a href=`/dashboard/deleteticket/${id}/`>Eliminar</a>
+    </p>
 </div>

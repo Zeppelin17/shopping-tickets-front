@@ -5,6 +5,7 @@ import Ticket from "./Ticket.astro"
 const { token } = Astro.props
 
 const sortTicketsByDate = (tickets, sort = "desc") => {
+    
     // sort tickets in ascending order or descending depending on param sort
     if (sort === "asc") {
         tickets.sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -38,17 +39,16 @@ const getTickets = async () => {
             "Content-Type": "application/json"
         }
     })
-    // tickets sorted by date
-    const response = await query.json()
-    response.sort((a, b) => new Date(b.date) - new Date(a.date))
-    const tickets = response.map((ticket) => {
-        return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
-    })
-    
-    return sortTicketsByDate(tickets)
+    const response = await query.json()    
+    return sortTicketsByDate(response)
 }
 
-const tickets = await getTickets()
+const shops = await getShops()
+let tickets = await getTickets()
+tickets = tickets.map((ticket) => {
+        return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
+    })
+
 ---
 <div>
     {tickets && tickets.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}

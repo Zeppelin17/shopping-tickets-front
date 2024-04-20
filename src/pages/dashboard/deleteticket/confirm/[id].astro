@@ -1,0 +1,42 @@
+---
+import { isLoggedIn } from "../../../../utils"
+import MainLayout from "../../../../layouts/MainLayout.astro"
+
+// check if already logged in
+const token = (Astro.cookies.get("token") || {})?.value
+const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+
+if (!isLoggedIn({ token, tokenExpiry })) {
+    return Astro.redirect("/login")
+}
+
+const deleteTicket = async (id) => {
+        const ticketEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets/" + id + "/"
+        const query = await fetch(ticketEndpoint, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        const status = await query.status
+        return status
+    }
+
+const { id } = Astro.params
+const deleteSatus = await deleteTicket(id)
+const message = deleteSatus === 204 ? "Ticket eliminado" : "Error al eliminar el ticket"
+
+
+const errorTicket = (Astro.cookies.get("errorTicket") || {})?.value
+const successTicket = (Astro.cookies.get("successTicket") || {})?.value
+Astro.cookies.set("errorTicket", "", {path: `/dashboard/deleteticket/${id}/`, expires: new Date()})
+Astro.cookies.set("successTicket", "", {path: `/dashboard/deleteicket/${id}/`, expires: new Date()})
+---
+
+
+
+<MainLayout title="Dashboard">
+    <p>{deleteSatus && message}</p>
+    <a href="/dashboard">Volver</a> 
+</MainLayout>

@@ -12,13 +12,11 @@ if (!isLoggedIn({ token, tokenExpiry })) {
 }
 
 const errorTicket = (Astro.cookies.get("errorTicket") || {})?.value
-const successTicket = (Astro.cookies.get("successTicket") || {})?.value
-Astro.cookies.set("errorTicket", "", {path: "/dashboard/newticket", expires: new Date()})
-Astro.cookies.set("successTicket", "", {path: "/dashboard/newticket", expires: new Date()})
+Astro.cookies.set("errorTicket", "", {path: "/dashboard/newticket/", expires: new Date()})
 ---
 
 <MainLayout title="Dashboard">
     <h1>Nuevo Ticket</h1>
-    <TicketForm token={token} item={false} errorMsg={errorTicket} successMsg={successTicket} />
+    <TicketForm token={token} item={false} errorMsg={errorTicket} />
     <a href="/dashboard">Volver</a>
 </MainLayout>
