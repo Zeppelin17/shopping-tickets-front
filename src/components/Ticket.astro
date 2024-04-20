@@ -3,6 +3,6 @@ const { id, date, amount, shop } = Astro.props
 ---
 <div>
     <p>
-        {id} | {date} | {amount} | ({shop.id}) {shop.name} | <a href=`/dashboard/editticket/${id}/`>Editar</a> | <a href=`/dashboard/deleteticket/${id}/`>Eliminar</a>
+        {id} | {date} | {amount} | ({shop?.id || "-"}) {shop?.name || "SIN TIENDA"} | <a href=`/dashboard/editticket/${id}/`>Editar</a> | <a href=`/dashboard/deleteticket/${id}/`>Eliminar</a>
     </p>
 </div>

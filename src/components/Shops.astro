@@ -1,0 +1,27 @@
+---
+/* This component is used to display shops */
+
+import Shop from "./Shop.astro"
+const { token } = Astro.props
+
+const getShops = async () => {
+    const shopsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/"
+    const query = await fetch(shopsEndpoint, {
+        method: "GET",
+        headers: {
+            "Authorization": `Token ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    const response = await query.json()
+    return response
+}
+
+
+const shops = await getShops()
+---
+<div>
+    <p><a href="/dashboard/newshop/">Nueva Tienda</a></p>
+    <h2>Tiendas</h2>
+    {shops && shops.map((shop) => <Shop id={shop.id} name={shop.name} />)}
+</div>

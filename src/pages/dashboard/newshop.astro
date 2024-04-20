@@ -1,8 +1,7 @@
 ---
 import { isLoggedIn } from "../../utils"
 import MainLayout from "../../layouts/MainLayout.astro"
-import CurrentTickets from "../../components/CurrentTickets.astro"
-import Shops from "../../components/Shops.astro"
+import ShopForm from "../../components/ShopForm.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -11,10 +10,13 @@ const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
 if (!isLoggedIn({ token, tokenExpiry })) {
     return Astro.redirect("/login")
 }
+
+const errorShop = (Astro.cookies.get("errorShop") || {})?.value
+Astro.cookies.set("errorShop", "", {path: "/dashboard/newshop/", expires: new Date()})
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Dashboard</h1>
-    <CurrentTickets token={token} />
-    <Shops token={token} />
+    <h1>Nueva Tienda</h1>
+    <ShopForm item={false} errorMsg={errorShop} />
+    <a href="/dashboard">Volver</a>
 </MainLayout>

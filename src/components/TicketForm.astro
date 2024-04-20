@@ -22,8 +22,15 @@ const shops = await getShops()
     <input type="number" step="0.01" name="amount" placeholder="Total" value={item && item.amount} required>
     <select name="shop" required>
         <option value="">Tienda</option>
-        {shops.map((shop) => <option value={shop.id} selected={(item && item.shop.id === shop.id) ? "selected" : ""}>{shop.name}</option>)}
+        {shops.map((shop) => {
+            const attributes = {
+                ...(Astro.params.item?.shop?.id === shop.id && {selected: "selected"})
+            }
+
+            return <option value={shop.id} {...attributes}>{shop.name}</option>
+        })}
     </select>
+    
     <button>{item ? "Editar" : "Crear"}</button>
 
     {errorMsg && <p>{errorMsg}</p>}

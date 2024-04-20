@@ -1,0 +1,8 @@
+---
+const { id, name } = Astro.props
+---
+<div>
+    <p>
+        {id} | {name} | <a href=`/dashboard/editshop/${id}/`>Editar</a> | <a href=`/dashboard/deleteshop/${id}/`>Eliminar</a>
+    </p>
+</div>

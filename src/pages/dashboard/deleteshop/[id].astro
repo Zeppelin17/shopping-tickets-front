@@ -1,0 +1,39 @@
+---
+import { isLoggedIn } from "../../../utils"
+import MainLayout from "../../../layouts/MainLayout.astro"
+
+// check if already logged in
+const token = (Astro.cookies.get("token") || {})?.value
+const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+
+if (!isLoggedIn({ token, tokenExpiry })) {
+    return Astro.redirect("/login")
+}
+
+const getShop = async (id) => {
+    const shopsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/" + id + "/"
+    const query = await fetch(shopsEndpoint, {
+        method: "GET",
+        headers: {
+            "Authorization": `Token ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    const response = await query.json()
+    return response
+}
+
+const { id } = Astro.params
+const shop = await getShop(id)
+---
+
+<MainLayout title="Dashboard">
+    <h1>Eliminar Tienda</h1>
+    <p>¿Seguro que quieres eliminar esta tienda? Todos los tickets asociados quedarán sin tienda asociada.</p>
+    <ul>
+        <li><strong>ID:</strong> {shop.id}</li>
+        <li><strong>Fecha:</strong> {shop.name}</li>
+    </ul>
+
+    <a href="/dashboard">Volver</a> | <a id="deleteButton" href=`/dashboard/deleteshop/confirm/${id}/`>Confirmar</a>
+</MainLayout>

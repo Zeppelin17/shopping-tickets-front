@@ -1,0 +1,14 @@
+---
+const { errorMsg, successMsg, item } = Astro.props
+
+console.log("item", item);
+
+---
+<form action="/actions/shop" method="POST">
+    <input type="hidden" name="id" value={item && item.id}>
+    <input type="text" name="name" placeholder="Nombre" value={item ? item.name : ""} required>
+    <button>{item ? "Editar" : "Crear"}</button>
+
+    {errorMsg && <p>{errorMsg}</p>}
+    {successMsg && <p>{successMsg}</p>}
+</form>
