@@ -1,0 +1,25 @@
+---
+import { isLoggedIn } from "../../utils"
+import MainLayout from "../../layouts/MainLayout.astro"
+import SearchTicketForm from "../../components/SearchTicketForm.astro"
+
+// check if already logged in
+const token = (Astro.cookies.get("token") || {})?.value
+const tokenExpiry = (Astro.cookies.get("tokenExpiry") || {})?.value
+
+if (!isLoggedIn({ token, tokenExpiry })) {
+    return Astro.redirect("/login")
+}
+
+const errorSearch = (Astro.cookies.get("errorSearch") || {})?.value
+Astro.cookies.set("errorSearch", "", {path: "/dashboard/searchticket/", expires: new Date()})
+let resultSearch = (Astro.cookies.get("resultSearch") || {})?.value
+resultSearch = resultSearch ? JSON.parse(resultSearch) : []
+Astro.cookies.set("resultSearch", "", {path: "/dashboard/searchticket/", expires: new Date()})
+---
+
+<MainLayout title="Dashboard">
+    <h1>Buscar Tickets</h1>
+    <SearchTicketForm token={token} results={resultSearch} errorMsg={errorSearch} />
+    <a href="/dashboard">Volver</a>
+</MainLayout>

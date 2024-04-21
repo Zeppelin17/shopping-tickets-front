@@ -1,0 +1,45 @@
+---
+import { getShops } from "../utils"
+import Ticket from "./Ticket.astro"
+
+const { token, results, errorMsg } = Astro.props
+const shops = await getShops(token)
+
+const months = [
+    [1, "Enero"],
+    [2, "Febrero"],
+    [3, "Marzo"],
+    [4, "Abril"],
+    [5, "Mayo"],
+    [6, "Junio"],
+    [7, "Julio"],
+    [8, "Agosto"],
+    [9, "Septiembre"],
+    [10, "Octubre"],
+    [11, "Noviembre"],
+    [12, "Diciembre"]
+]
+const years = Array.from({length: 5}, (_, i) => new Date().getFullYear() - i)
+---
+<form action="/actions/search" method="POST">
+    <input type="hidden" name="token" value={token} />
+    <select name="month">
+        <option value="0">Mes</option>
+        {months.map((month) => <option value={month[0]}>{month[1]}</option>)}
+    </select>
+
+    <select name="year">
+        <option value="0">Año</option>
+        {years.map((year) => <option value={year}>{year}</option>)}
+    </select>
+
+    <select name="shop">
+        <option value="">Tienda</option>
+        {shops.map((shop) => <option value={shop.id}>{shop.name}</option>)}
+    </select>
+    
+    <button>Buscar</button>
+
+    {results && results.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}
+    {errorMsg && <p>{errorMsg}</p>}
+</form>

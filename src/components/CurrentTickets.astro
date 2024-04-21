@@ -18,7 +18,7 @@ tickets = tickets.map((ticket) => {
 
 ---
 <div>
-    <p><a href="/dashboard/newticket">Nuevo Ticket</a></p>
+    <p><a href="/dashboard/newticket">Nuevo Ticket</a> | <a href="/dashboard/searchticket">Buscar tickets</a></p>
     <h2>Tickets del mes</h2>
     {tickets && tickets.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}
 </div>
