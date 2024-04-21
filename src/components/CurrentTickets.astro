@@ -6,10 +6,15 @@ import { getShops, getTickets } from "../utils"
 const { token } = Astro.props
 
 const shops = await getShops(token)
-let tickets = await getTickets(token)
+
+const params = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1
+}
+let tickets = await getTickets(token, params)
 tickets = tickets.map((ticket) => {
-        return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
-    })
+    return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
+})
 
 ---
 <div>

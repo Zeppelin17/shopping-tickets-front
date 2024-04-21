@@ -164,8 +164,15 @@ const sortTicketsByDate = (tickets, sort = "desc") => {
  * @param {string} token - The authentication token for the API.
  * @return {Array<Object>} Array of ticket objects.
  */
-const getTickets = async (token) => {
-    const ticketsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets?current_month=1"
+const getTickets = async (token, params = {}) => {
+    const {year=undefined, month=undefined} = params
+
+    let queryParams = "?"
+    queryParams += year ? `&year=${year}` : `&year=${0}`
+    queryParams += month ? `&month=${month}` : `&month=${0}`
+
+    
+    const ticketsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets/" + queryParams
     const query = await fetch(ticketsEndpoint, {
         method: "GET",
         headers: {
