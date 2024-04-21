@@ -1,5 +1,5 @@
 ---
-import { isLoggedIn } from "../../../utils"
+import { isLoggedIn, getTicket } from "../../../utils"
 import MainLayout from "../../../layouts/MainLayout.astro"
 import TicketForm from "../../../components/TicketForm.astro"
 
@@ -11,21 +11,8 @@ if (!isLoggedIn({ token, tokenExpiry })) {
     return Astro.redirect("/login")
 }
 
-const getTicket = async (id) => {
-    const ticketEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets/" + id
-    const query = await fetch(ticketEndpoint, {
-        method: "GET",
-        headers: {
-            "Authorization": `Token ${token}`,
-            "Content-Type": "application/json"
-        }
-    })
-    const response = await query.json()
-    return response
-}
-
 const { id } = Astro.params
-const ticket = await getTicket(id)
+const ticket = await getTicket(token, id)
 
 const errorTicket = (Astro.cookies.get("errorTicket") || {})?.value
 const successTicket = (Astro.cookies.get("successTicket") || {})?.value

@@ -2,49 +2,11 @@
 /* This component is used to display current month tickets */
 
 import Ticket from "./Ticket.astro"
+import { getShops, getTickets } from "../utils"
 const { token } = Astro.props
 
-const sortTicketsByDate = (tickets, sort = "desc") => {
-    
-    // sort tickets in ascending order or descending depending on param sort
-    if (sort === "asc") {
-        tickets.sort((a, b) => new Date(a.date) - new Date(b.date))
-    } else if (sort === "desc") {
-        tickets.sort((a, b) => new Date(b.date) - new Date(a.date))
-    }
-
-    return tickets
-}
-
-const getShops = async () => {
-    const shopsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops"
-    const query = await fetch(shopsEndpoint, {
-        method: "GET",
-        headers: {
-            "Authorization": `Token ${token}`,
-            "Content-Type": "application/json"
-        }
-    })
-    const response = await query.json()
-    return response
-}
-
-const getTickets = async () => {
-    const shops = await getShops()
-    const ticketsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets?current_month=1"
-    const query = await fetch(ticketsEndpoint, {
-        method: "GET",
-        headers: {
-            "Authorization": `Token ${token}`,
-            "Content-Type": "application/json"
-        }
-    })
-    const response = await query.json()    
-    return sortTicketsByDate(response)
-}
-
-const shops = await getShops()
-let tickets = await getTickets()
+const shops = await getShops(token)
+let tickets = await getTickets(token)
 tickets = tickets.map((ticket) => {
         return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
     })

@@ -1,4 +1,6 @@
 
+import { putShop, postShop } from "../../utils"
+
 export const POST = async ({ cookies, redirect, request }) => {
     try {
         const data = await request.formData()
@@ -32,17 +34,7 @@ const createShop = async (cookies, data) => {
     try {
         const { name } = data
 
-        const createShopEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/"
-        const query = await fetch(createShopEndoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name
-            })
-        })
-        const response = await query.json()
+        const response = await postShop(name)
         if (response.non_field_errors) {
             throw new Error(response.non_field_errors)
         }
@@ -75,17 +67,7 @@ const updateShop = async (cookies, data) => {
     try {
         const { id, name } = data
 
-        const updateShopEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/" + id + "/"
-        const query = await fetch(updateShopEndoint, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name
-            })
-        })
-        const response = await query.json()
+        const response = await putShop(id, name)
         if (response.non_field_errors) {
             throw new Error(response.non_field_errors)
         }

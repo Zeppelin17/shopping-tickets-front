@@ -1,5 +1,5 @@
 ---
-import { isLoggedIn } from "../../../utils"
+import { isLoggedIn, getShop } from "../../../utils"
 import MainLayout from "../../../layouts/MainLayout.astro"
 
 // check if already logged in
@@ -10,21 +10,8 @@ if (!isLoggedIn({ token, tokenExpiry })) {
     return Astro.redirect("/login")
 }
 
-const getShop = async (id) => {
-    const shopsEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/" + id + "/"
-    const query = await fetch(shopsEndpoint, {
-        method: "GET",
-        headers: {
-            "Authorization": `Token ${token}`,
-            "Content-Type": "application/json"
-        }
-    })
-    const response = await query.json()
-    return response
-}
-
 const { id } = Astro.params
-const shop = await getShop(id)
+const shop = await getShop(token, id)
 ---
 
 <MainLayout title="Dashboard">

@@ -1,3 +1,4 @@
+import { putTicket, postTicket } from "../../utils"
 
 export const POST = async ({ cookies, redirect, request }) => {
     try {
@@ -34,19 +35,7 @@ const createTicket = async (cookies, data) => {
     try {
         const { date, amount, shop } = data
 
-        const createTicketEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets/"
-        const query = await fetch(createTicketEndoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                date,
-                amount,
-                shop
-            })
-        })
-        const response = await query.json()
+        const response = await postTicket(date, amount, shop)
         if (response.non_field_errors) {
             throw new Error(response.non_field_errors)
         }
@@ -79,19 +68,7 @@ const updateTicket = async (cookies, data) => {
     try {
         const { id, date, amount, shop } = data
 
-        const updateTicketEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/tickets/" + id + "/"
-        const query = await fetch(updateTicketEndoint, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                date,
-                amount,
-                shop
-            })
-        })
-        const response = await query.json()
+        const response = await putTicket(id, date, amount, shop)
         if (response.non_field_errors) {
             throw new Error(response.non_field_errors)
         }

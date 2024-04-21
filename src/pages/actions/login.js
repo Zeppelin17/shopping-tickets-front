@@ -1,4 +1,5 @@
 
+import { loginUser } from "../../utils"
 export const POST = async ({ cookies, redirect, request }) => {
     // login form interaction with api
     try {
@@ -6,18 +7,8 @@ export const POST = async ({ cookies, redirect, request }) => {
         const username = data.get("username")
         const password = data.get("password")
 
-        const loginEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/login"
-        const query = await fetch(loginEndoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                password
-            })
-        })
-        const response = await query.json()
+        const response = await loginUser(username, password)
+        
         if (response.non_field_errors) {
             throw new Error(response.non_field_errors)
         }

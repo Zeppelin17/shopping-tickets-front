@@ -1,5 +1,5 @@
 ---
-import { isLoggedIn } from "../../../../utils"
+import { isLoggedIn, deleteShop } from "../../../../utils"
 import MainLayout from "../../../../layouts/MainLayout.astro"
 
 // check if already logged in
@@ -10,33 +10,15 @@ if (!isLoggedIn({ token, tokenExpiry })) {
     return Astro.redirect("/login")
 }
 
-const deleteShop = async (id) => {
-        const shopEndpoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/shops/" + id + "/"
-        const query = await fetch(shopEndpoint, {
-            method: "DELETE",
-            headers: {
-                "Authorization": `Token ${token}`,
-                "Content-Type": "application/json"
-            }
-        })
-        const status = await query.status
-        return status
-    }
-
 const { id } = Astro.params
-const deleteSatus = await deleteShop(id)
-const message = deleteSatus === 204 ? "Tienda eliminada" : "Error al eliminar la tienda"
+const deleteStatus = await deleteShop(token, parseInt(id))
+const message = deleteStatus === 204 ? "Tienda eliminada" : "Error al eliminar la tienda"
 
-
-const errorShop = (Astro.cookies.get("errorShop") || {})?.value
-const successShop = (Astro.cookies.get("successShop") || {})?.value
 Astro.cookies.set("errorShop", "", {path: `/dashboard/deleteshop/${id}/`, expires: new Date()})
 Astro.cookies.set("successShop", "", {path: `/dashboard/deletshop/${id}/`, expires: new Date()})
 ---
 
-
-
 <MainLayout title="Dashboard">
-    <p>{deleteSatus && message}</p>
+    <p>{deleteStatus && message}</p>
     <a href="/dashboard">Volver</a> 
 </MainLayout>

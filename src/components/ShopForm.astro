@@ -1,8 +1,5 @@
 ---
 const { errorMsg, successMsg, item } = Astro.props
-
-console.log("item", item);
-
 ---
 <form action="/actions/shop" method="POST">
     <input type="hidden" name="id" value={item && item.id}>
