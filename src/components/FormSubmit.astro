@@ -1,0 +1,11 @@
+---
+const { text } = Astro.props
+---
+
+<button class="submit-button">{text}</button>
+
+<style>
+    .submit-button {
+        @apply px-2 py-4 mt-4 text-3xl text-cyan-900 bg-teal-500 hover:bg-teal-800 hover:text-gray-200 rounded-md w-full
+    }
+</style>

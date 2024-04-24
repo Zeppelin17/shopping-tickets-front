@@ -1,0 +1,18 @@
+---
+const { name, type, placeholder, value, required = false } = Astro.props
+const attributes = {required: required ? "required" : ""}
+---
+
+<input 
+    type={type} 
+    name={name} 
+    placeholder={placeholder} 
+    value={value}
+    {...attributes}
+    class="input-form" >
+
+<style>
+    .input-form {
+        @apply px-2 py-4 rounded-md text-lg
+    }
+</style>

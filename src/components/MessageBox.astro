@@ -1,0 +1,20 @@
+---
+const { type } = Astro.props
+const typeClass = type === "error" ? "error-msg" : "success-msg"
+---
+
+<div class=`box-msg ${typeClass}`>
+    <slot />
+</div>
+
+<style>
+    .box-msg {
+        @apply px-2 py-4 mt-4 rounded-md
+    }
+    .error-msg {
+         @apply bg-red-500 text-gray-200
+    }
+    .success-msg {
+        @apply bg-emerald-200 text-gray-700
+    }
+</style>
