@@ -1,10 +1,19 @@
 ---
+import FormInput from "./FormInput.astro"
+import FormSubmit from "./FormSubmit.astro"
+import MessageBox from "./MessageBox.astro"
+
 const { errorMsg } = Astro.props
 ---
 <form action="/actions/login" method="post">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button>Login</button>
+    <div class="flex flex-col space-y-2">
+        <FormInput name="username", type="text", placeholder="Username" required={true} />
+        <FormInput name="password" type="password" placeholder="Password" required={true} />
+    </div>
+    <FormSubmit text="Let's go!" />
     
-    {errorMsg && <p>{errorMsg}</p>}
+    {
+        errorMsg && 
+        <MessageBox type="error">{errorMsg}</MessageBox>
+    }
 </form>

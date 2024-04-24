@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro"
 import LoginForm from "../components/LoginForm.astro"
+import PageTitle from "../components/PageTitle.astro"
 import { isLoggedIn } from "../utils"
 
 // check if already logged in
@@ -16,6 +17,8 @@ Astro.cookies.set("errorLogin", "", {path: "/login", expires: new Date()})
 ---
 
 <MainLayout title="Login">
-    <h1>Login</h1>
-    <LoginForm errorMsg={errorLogin} />
+    <div class="p-8 bg-sky-500 h-screen">
+        <PageTitle title="Login" />
+        <LoginForm errorMsg={errorLogin} />
+    </div>
 </MainLayout>

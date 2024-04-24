@@ -3,6 +3,7 @@ import { isLoggedIn } from "../../utils"
 import MainLayout from "../../layouts/MainLayout.astro"
 import CurrentTickets from "../../components/CurrentTickets.astro"
 import Shops from "../../components/Shops.astro"
+import PageTitle from "../../components/PageTitle.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -14,7 +15,7 @@ if (!isLoggedIn({ token, tokenExpiry })) {
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Dashboard</h1>
+    <PageTitle title="Dashboard" />
     <CurrentTickets token={token} />
     <Shops token={token} />
 </MainLayout>
