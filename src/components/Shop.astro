@@ -1,8 +1,26 @@
 ---
+import ButtonsBar from "./ButtonsBar.astro"
+import LinkButton from "./LinkButton.astro"
+
 const { id, name } = Astro.props
 ---
-<div>
-    <p>
-        {id} | {name} | <a href=`/dashboard/editshop/${id}/`>Editar</a> | <a href=`/dashboard/deleteshop/${id}/`>Eliminar</a>
-    </p>
+<div class="shop" data-id={id}>
+    <section class="s-name">
+        {name}
+    </section>
+    <section class="s-footer">
+        <ButtonsBar inverseBorder={true} centerButtons={true}>
+            <LinkButton text="Editar" to={`/dashboard/editshop/${id}/`} smallFormat={true} />
+            <LinkButton text="Eliminar" to={`/dashboard/deleteshop/${id}/`} smallFormat={true} danger={true} />
+        </ButtonsBar>
+    </section>
 </div>
+
+<style>
+    .shop {
+        @apply p-2 bg-sky-100 rounded-md shadow-sm text-sm hover:bg-sky-50
+    }
+    .s-name {
+        @apply mx-auto my-8 py-4 font-bold flex items-center justify-center text-4xl text-center
+    }
+</style>

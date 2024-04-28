@@ -1,0 +1,16 @@
+---
+const { text, to, smallFormat = false, danger = false } = Astro.props
+const smallClass = smallFormat ? "text-xs py-1" : "text-sm py-3"
+const dangerClass = danger ? "link-danger" : ""
+---
+
+<a class={`link-button ${smallClass} ${dangerClass}`} href={to}>{text}</a>
+
+<style>
+    .link-button {
+        @apply px-2 bg-sky-700 text-gray-200 rounded-sm hover:bg-cyan-700 hover:text-gray-100 hover:shadow-sm
+    }
+    .link-danger {
+        @apply bg-red-500
+    }
+</style>

@@ -2,13 +2,23 @@
 /* This component is used to display shops */
 
 import Shop from "./Shop.astro"
+import PageSubtitle from "./PageSubtitle.astro"
+import LayoutSection from "../layouts/LayoutSection.astro"
+import ButtonsBar from "./ButtonsBar.astro"
+import LinkButton from "./LinkButton.astro"
+import CardsWrap from "./CardsWrap.astro"
 import { getShops } from "../utils"
+
 const { token } = Astro.props
 
 const shops = await getShops(token)
 ---
-<div>
-    <p><a href="/dashboard/newshop/">Nueva Tienda</a></p>
-    <h2>Tiendas</h2>
-    {shops && shops.map((shop) => <Shop id={shop.id} name={shop.name} />)}
-</div>
+<LayoutSection>
+    <ButtonsBar>
+        <LinkButton text="Nueva Tienda" to="/dashboard/newshop/" />
+    </ButtonsBar>
+    <PageSubtitle title="Tiendas" />
+    <CardsWrap>
+        {shops && shops.map((shop) => <Shop id={shop.id} name={shop.name} />)}
+    </CardsWrap>
+</LayoutSection>

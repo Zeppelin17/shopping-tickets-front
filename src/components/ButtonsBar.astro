@@ -1,0 +1,15 @@
+---
+const { inverseBorder = false, centerButtons = false } = Astro.props
+const borderClass = inverseBorder ? "border-t pt-2 mt-2" : "border-b pb-2 mb-2"
+const centerClass = centerButtons ? "justify-center" : ""
+---
+
+<section class={`buttons-bar ${borderClass} ${centerClass}`}>
+    <slot />
+</section>
+
+<style>
+    .buttons-bar {
+        @apply flex gap-x-2 border-sky-400 shadow-sm
+    }
+</style>

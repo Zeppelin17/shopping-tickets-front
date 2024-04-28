@@ -1,8 +1,50 @@
 ---
+import ButtonsBar from "./ButtonsBar.astro"
+import LinkButton from "./LinkButton.astro"
+
 const { id, date, amount, shop } = Astro.props
+const amountEur = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(amount)
+const dateFormatted = new Date(date).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })
 ---
-<div>
-    <p>
-        {id} | {date} | {amount} | ({shop?.id || "-"}) {shop?.name || "SIN TIENDA"} | <a href=`/dashboard/editticket/${id}/`>Editar</a> | <a href=`/dashboard/deleteticket/${id}/`>Eliminar</a>
-    </p>
+<div class="ticket" data-id={id}>
+    <section class="ticket-header" data-shop-id={shop?.id}>
+        <span class="shop">
+            {shop?.name || "SIN TIENDA"}
+        </span>
+        <span class="date">
+            {dateFormatted} 
+        </span>
+    </section>
+
+    <section class="ticket-body">
+        <span class="amount">{amountEur}</span>
+    </section>
+
+    <section class="ticket-footer">
+        <ButtonsBar inverseBorder={true} centerButtons={true}>
+            <LinkButton text="Editar" to={`/dashboard/editticket/${id}/`} smallFormat={true} />
+            <LinkButton text="Eliminar" to={`/dashboard/deleteticket/${id}/`} smallFormat={true} danger={true} />
+        </ButtonsBar>
+    </section>
 </div>
+
+<style>
+    .ticket {
+        @apply p-2 bg-sky-100 rounded-md shadow-sm text-sm hover:bg-sky-50
+    }
+    .ticket-header {
+        @apply flex flex-col items-center
+    }
+    .date {
+        @apply text-sm
+    }
+    .shop {
+        @apply font-bold text-lg
+    }
+    .ticket-body {
+        @apply my-8 flex items-center justify-center mx-auto text-4xl text-center w-36 h-36 rounded-full border border-sky-400 shadow-lg
+    }
+    .amount {
+        @apply font-bold
+    }
+</style>

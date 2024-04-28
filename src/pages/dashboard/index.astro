@@ -15,7 +15,9 @@ if (!isLoggedIn({ token, tokenExpiry })) {
 ---
 
 <MainLayout title="Dashboard">
-    <PageTitle title="Dashboard" />
-    <CurrentTickets token={token} />
-    <Shops token={token} />
+    <div class="p-8 bg-sky-200 min-h-screen lg:flex lg:flex-col lg:justify-center lg:items-center">
+        <PageTitle title="Dashboard" />
+        <CurrentTickets token={token} />
+        <Shops token={token} />
+    </div>
 </MainLayout>

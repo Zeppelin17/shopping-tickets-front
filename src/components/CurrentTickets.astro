@@ -2,7 +2,14 @@
 /* This component is used to display current month tickets */
 
 import Ticket from "./Ticket.astro"
+import CardsWrap from "./CardsWrap.astro"
+import LayoutSection from "../layouts/LayoutSection.astro"
+import ButtonsBar from "../components/ButtonsBar.astro"
+import LinkButton from "./LinkButton.astro"
+import PageSubtitle from "../components/PageSubtitle.astro"
 import { getShops, getTickets } from "../utils"
+
+
 const { token } = Astro.props
 
 const shops = await getShops(token)
@@ -17,8 +24,13 @@ tickets = tickets.map((ticket) => {
 })
 
 ---
-<div>
-    <p><a href="/dashboard/newticket">Nuevo Ticket</a> | <a href="/dashboard/searchticket">Buscar tickets</a></p>
-    <h2>Tickets del mes</h2>
-    {tickets && tickets.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}
-</div>
+<LayoutSection>
+    <ButtonsBar>
+        <LinkButton text="Nuevo Ticket" to="/dashboard/newticket" />
+        <LinkButton text="Buscar Tickets" to="/dashboard/searchticket" />
+    </ButtonsBar>
+    <PageSubtitle title="Tickets del mes" />
+    <CardsWrap>
+        {tickets && tickets.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}
+    </CardsWrap>
+</LayoutSection>
