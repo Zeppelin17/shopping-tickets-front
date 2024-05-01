@@ -2,6 +2,9 @@
 import { isLoggedIn, getTicket } from "../../../utils"
 import MainLayout from "../../../layouts/MainLayout.astro"
 import TicketForm from "../../../components/TicketForm.astro"
+import PageTitle from "../../../components/PageTitle.astro"
+import ButtonsBar from "../../../components/ButtonsBar.astro"
+import LinkButton from "../../../components/LinkButton.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -21,7 +24,9 @@ Astro.cookies.set("successTicket", "", {path: `/dashboard/editticket/${id}/`, ex
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Editar Ticket</h1>
+    <PageTitle title="Editar Ticket" />
     <TicketForm token={token} item={ticket} errorMsg={errorTicket} successMsg={successTicket} />
-    <a href="/dashboard">Volver</a>
+    <ButtonsBar inverseBorder={true}>
+        <LinkButton text="Volver" to="/dashboard" />
+    </ButtonsBar>
 </MainLayout>

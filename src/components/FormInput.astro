@@ -1,5 +1,5 @@
 ---
-const { name, type, placeholder, value, required = false } = Astro.props
+const { name, type, step, placeholder, value, required = false } = Astro.props
 const attributes = {required: required ? "required" : ""}
 ---
 
@@ -8,6 +8,7 @@ const attributes = {required: required ? "required" : ""}
     name={name} 
     placeholder={placeholder} 
     value={value}
+    step={step}
     {...attributes}
     class="input-form" >
 

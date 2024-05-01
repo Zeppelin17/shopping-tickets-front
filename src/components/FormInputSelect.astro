@@ -1,0 +1,24 @@
+---
+const { name, options, defaultOption, selectedOptionValue, required = false } = Astro.props
+const attributes = {required: required ? "required" : ""}
+---
+
+<>  
+    <select name={name} class="input-form-select">
+        <option value="">{defaultOption}</option>
+        {options.map((option) => {            
+            const attributes = {
+                ...(selectedOptionValue === option.id && {selected: "selected"})
+            }
+
+            return <option value={option.id} {...attributes}>{option.name}</option>
+        })}
+    </select>
+        
+</>
+
+<style>
+    .input-form-select {
+        @apply px-2 py-4 rounded-md text-lg
+    }
+</style>

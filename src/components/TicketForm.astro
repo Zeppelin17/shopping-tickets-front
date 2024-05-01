@@ -1,26 +1,32 @@
 ---
 import { getShops } from "../utils"
+import FormInput from "./FormInput.astro"
+import FormInputSelect from "./FormInputSelect.astro"
+import FormSubmit from "./FormSubmit.astro"
+import MessageBox from "./MessageBox.astro"
+
 const { token, errorMsg, successMsg, item } = Astro.props
 
 const shops = await getShops(token)
 ---
-<form action="/actions/ticket" method="POST">
-    <input type="hidden" name="id" value={item && item.id}>
-    <input type="date" name="date" placeholder="Fecha" value={item && item.date} required>
-    <input type="number" step="0.01" name="amount" placeholder="Total" value={item && item.amount} required>
-    <select name="shop" required>
-        <option value="">Tienda</option>
-        {shops.map((shop) => {            
-            const attributes = {
-                ...(item.shop === shop.id && {selected: "selected"})
-            }
-
-            return <option value={shop.id} {...attributes}>{shop.name}</option>
-        })}
-    </select>
-    
-    <button>{item ? "Editar" : "Crear"}</button>
-
-    {errorMsg && <p>{errorMsg}</p>}
-    {successMsg && <p>{successMsg}</p>}
+<form action="/actions/ticket" method="POST" class="ticket-form">
+    <FormInput name="id" type="hidden" value={item && item.id} />
+    <FormInput name="date" type="date" placeholder="Fecha" value={item && item.date} required={true} />
+    <FormInput name="amount" type="number" step="0.01" placeholder="Total" value={item && item.amount} required={true} />
+    <FormInputSelect name="shop" options={shops} defaultOption="Tienda" selectedOptionValue={item && item.shop} required={true} />
+    <FormSubmit text={item ? "Editar" : "Crear"} />
+    {
+        errorMsg && 
+        <MessageBox type="error">{errorMsg}</MessageBox>
+    }
+    {
+        successMsg && 
+        <MessageBox type="success">{successMsg}</MessageBox>
+    }
 </form>
+
+<style>
+    .ticket-form {
+        @apply flex flex-col gap-y-2
+    }
+</style>
