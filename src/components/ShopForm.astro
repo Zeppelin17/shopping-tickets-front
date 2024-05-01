@@ -1,11 +1,26 @@
 ---
+import FormInput from "./FormInput.astro"
+import FormSubmit from "./FormSubmit.astro"
+import MessageBox from "./MessageBox.astro"
+
 const { errorMsg, successMsg, item } = Astro.props
 ---
-<form action="/actions/shop" method="POST">
-    <input type="hidden" name="id" value={item && item.id}>
-    <input type="text" name="name" placeholder="Nombre" value={item ? item.name : ""} required>
-    <button>{item ? "Editar" : "Crear"}</button>
-
-    {errorMsg && <p>{errorMsg}</p>}
-    {successMsg && <p>{successMsg}</p>}
+<form action="/actions/shop" method="POST" class="shop-form">
+    <FormInput name="id" type="hidden" value={item && item.id} />
+    <FormInput name="name" type="text" placeholder="Nombre" value={item ? item.name : ""} required={true} />
+    <FormSubmit text={item ? "Editar" : "Crear"} />
+    {
+        errorMsg && 
+        <MessageBox type="error">{errorMsg}</MessageBox>
+    }
+    {
+        successMsg && 
+        <MessageBox type="success">{successMsg}</MessageBox>
+    }
 </form>
+
+<style>
+    .shop-form {
+        @apply flex flex-col gap-y-2
+    }
+</style>

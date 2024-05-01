@@ -2,6 +2,9 @@
 import { isLoggedIn } from "../../utils"
 import MainLayout from "../../layouts/MainLayout.astro"
 import ShopForm from "../../components/ShopForm.astro"
+import PageTitle from "../../components/PageTitle.astro"
+import ButtonsBar from "../../components/ButtonsBar.astro"
+import LinkButton from "../../components/LinkButton.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -16,7 +19,9 @@ Astro.cookies.set("errorShop", "", {path: "/dashboard/newshop/", expires: new Da
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Nueva Tienda</h1>
+    <PageTitle title="Nueva Tienda" />
     <ShopForm item={false} errorMsg={errorShop} />
-    <a href="/dashboard">Volver</a>
+    <ButtonsBar inverseBorder={true}>
+        <LinkButton text="Volver" to="/dashboard" />
+    </ButtonsBar>
 </MainLayout>
