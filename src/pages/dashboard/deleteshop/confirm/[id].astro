@@ -1,6 +1,9 @@
 ---
 import { isLoggedIn, deleteShop } from "../../../../utils"
 import MainLayout from "../../../../layouts/MainLayout.astro"
+import MessageBox from "../../../../components/MessageBox.astro"
+import ButtonsBar from "../../../../components/ButtonsBar.astro"
+import LinkButton from "../../../../components/LinkButton.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -19,6 +22,11 @@ Astro.cookies.set("successShop", "", {path: `/dashboard/deletshop/${id}/`, expir
 ---
 
 <MainLayout title="Dashboard">
-    <p>{deleteStatus && message}</p>
-    <a href="/dashboard">Volver</a> 
+    {
+        deleteStatus && 
+        <MessageBox type="success">{message}</MessageBox>
+    }
+    <ButtonsBar inverseBorder={true}>
+        <LinkButton text="Volver" to="/dashboard" />
+    </ButtonsBar>
 </MainLayout>

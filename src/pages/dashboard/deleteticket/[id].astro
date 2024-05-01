@@ -1,6 +1,10 @@
 ---
 import { isLoggedIn, getShop, getTicket } from "../../../utils"
 import MainLayout from "../../../layouts/MainLayout.astro"
+import PageTitle from "../../../components/PageTitle.astro"
+import ButtonsBar from "../../../components/ButtonsBar.astro"
+import LinkButton from "../../../components/LinkButton.astro"
+import Ticket from "../../../components/Ticket.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -16,14 +20,12 @@ const shop = await getShop(token, ticket.shop)
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Eliminar Ticket</h1>
-    <p>¿Seguro que quieres eliminar este ticket?</p>
-    <ul>
-        <li><strong>ID:</strong> {ticket.id}</li>
-        <li><strong>Fecha:</strong> {ticket.date}</li>
-        <li><strong>Importe:</strong> {ticket.amount}</li>
-        <li><strong>Tienda:</strong> {shop.name}</li>
-    </ul>
+    <PageTitle title="Eliminar Ticket" />
+    <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={shop} showButtonsBar={false}/>
 
-    <a href="/dashboard">Volver</a> | <a id="deleteButton" href=`/dashboard/deleteticket/confirm/${id}/`>Confirmar</a>
+    <ButtonsBar inverseBorder={true}>
+        <LinkButton text="Volver" to="/dashboard" />
+        <LinkButton text="Confirmar" to=`/dashboard/deleteticket/confirm/${id}/` danger={true} />
+    </ButtonsBar>
+
 </MainLayout>
