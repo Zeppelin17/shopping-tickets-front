@@ -23,6 +23,9 @@ tickets = tickets.map((ticket) => {
     return {...ticket, shop: shops.find((shop) => shop.id === ticket.shop) || undefined}
 })
 
+const totalAmount = tickets.reduce((total, ticket) => total + ticket.amount, 0)
+const currentMonth = new Date().toLocaleString('default', { month: 'long' })
+
 ---
 <LayoutSection>
     <ButtonsBar>
@@ -31,6 +34,7 @@ tickets = tickets.map((ticket) => {
     </ButtonsBar>
     <PageSubtitle title="Tickets del mes" />
     <CardsWrap>
+        <Ticket id="total" amount={totalAmount} shop={{name: `Total ${currentMonth}`}} showButtonsBar={false}/>
         {tickets && tickets.map((ticket) => <Ticket id={ticket.id} date={ticket.date} amount={ticket.amount} shop={ticket.shop} />)}
     </CardsWrap>
 </LayoutSection>
