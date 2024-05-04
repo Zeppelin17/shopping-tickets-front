@@ -2,6 +2,9 @@
 import { isLoggedIn } from "../../utils"
 import MainLayout from "../../layouts/MainLayout.astro"
 import SearchTicketForm from "../../components/SearchTicketForm.astro"
+import PageTitle from "../../components/PageTitle.astro"
+import ButtonsBar from "../../components/ButtonsBar.astro"
+import LinkButton from "../../components/LinkButton.astro"
 
 // check if already logged in
 const token = (Astro.cookies.get("token") || {})?.value
@@ -19,7 +22,8 @@ Astro.cookies.set("resultSearch", "", {path: "/dashboard/searchticket/", expires
 ---
 
 <MainLayout title="Dashboard">
-    <h1>Buscar Tickets</h1>
+    <PageTitle title="Buscar Tickets" />
     <SearchTicketForm token={token} results={resultSearch} errorMsg={errorSearch} />
-    <a href="/dashboard">Volver</a>
+    <ButtonsBar inverseBorder={true}>
+        <LinkButton text="Volver" to="/dashboard" />
 </MainLayout>
