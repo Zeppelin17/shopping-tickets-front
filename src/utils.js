@@ -23,18 +23,18 @@ const isLoggedIn = (config) => {
  */
 const loginUser = async (username, password) => {
     const loginEndoint = import.meta.env.BASE_API_URL + import.meta.env.API_VERSION + "/login"
-        const query = await fetch(loginEndoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                password
-            })
+    const query = await fetch(loginEndoint, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username,
+            password
         })
-        const response = await query.json()
-        return response
+    })
+    const response = await query.json()
+    return response
 }
 
 /**
