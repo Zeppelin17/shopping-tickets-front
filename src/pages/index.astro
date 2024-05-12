@@ -1,4 +1,13 @@
 ---
-
+import Logo from "../components/Logo.astro"
+import PageTitle from "../components/PageTitle.astro"
+import LinkButton from "../components/LinkButton.astro"
+import MainLayout from "../layouts/MainLayout.astro"
 ---
-<a href="/login">Login</a>
+<MainLayout title="Login">
+    <div class="flex flex-col lg:justify-center lg:items-center lg:w-3/4 xl:w-1/2 2xl:w-1/3">
+        <Logo />
+        <PageTitle title="Shopping Tickets" />
+        <LinkButton text="Login" to="/login" />
+    </div>
+</MainLayout>
